@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity() {
 
         Log.d(TAG, "onCreate: called")
         val downloadData = DownloadData()
-        downloadData.execute("URL goes here")
+        downloadData.execute("http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/topfreeapplications/limit=10/xml")
         Log.d(TAG, "onCreate: done")
     }
 
@@ -38,4 +38,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+
 }
