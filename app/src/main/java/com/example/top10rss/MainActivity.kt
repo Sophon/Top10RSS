@@ -4,6 +4,7 @@ import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import java.net.URL
 
 class MainActivity : AppCompatActivity() {
     private val TAG = "MainActivity"
@@ -35,6 +36,10 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 return rssFeed
+            }
+
+            private fun downloadXML(urlPath: String?): String {
+                return URL(urlPath).readText()
             }
         }
     }
