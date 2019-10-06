@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
                 super.onPostExecute(result)
 //                Log.d(TAG, "onPostExecute: par is $result")
                 val parser = Parser()
-                parser.parse()
+                parser.parse(result)
             }
 
             override fun doInBackground(vararg urls: String?): String {
