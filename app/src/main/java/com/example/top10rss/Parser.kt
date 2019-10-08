@@ -15,6 +15,7 @@ class Parser {
         var status = true
         var inEntry = false
         var textValue = ""
+        var gotImage = false
 
         try {
             val factory = XmlPullParserFactory.newInstance()
@@ -25,11 +26,16 @@ class Parser {
             var currentRecord = FeedEntry()
 
             while(eventType != XmlPullParser.END_DOCUMENT) {
-                val tagName = xpp.name.toLowerCase()
+                val tagName = xpp.name?.toLowerCase()
                 when(eventType) {
                     XmlPullParser.START_TAG -> {
                         Log.d(TAG, "parse: starting tag for $tagName")
-                        if(tagName == "entry") inEntry = true
+                        if(tagName == "entry") {
+                            inEntry = true
+                        } else if(tagName == "image" && inEntry) {
+                            val imageRes = xpp.getAttributeValue(null, "height")
+                            if(imageRes.isEmpty()) gotImage = imageRes == "53"
+                        }
                     }
 
                     XmlPullParser.TEXT -> textValue = xpp.text
@@ -47,7 +53,7 @@ class Parser {
                                 "artist" -> currentRecord.artist = textValue
                                 "release date" -> currentRecord.releaseDate = textValue
                                 "summary" -> currentRecord.summary = textValue
-                                "image" -> currentRecord.imageURL = textValue
+                                "image" -> if(gotImage) currentRecord.imageURL = textValue
                             }
                         }
                     }
