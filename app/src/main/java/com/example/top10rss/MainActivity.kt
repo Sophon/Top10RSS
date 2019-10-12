@@ -47,8 +47,8 @@ class MainActivity : AppCompatActivity() {
                 val parser = Parser()
                 parser.parse(result)
 
-                val arrayAdapter = ArrayAdapter<FeedEntry>(propContext, R.layout.list_item, parser.records)
-                propListView.adapter = arrayAdapter
+                val feedAdapter = FeedAdapter(propContext, R.layout.list_record, parser.records)
+                propListView.adapter = feedAdapter
             }
 
             override fun doInBackground(vararg urls: String?): String {
