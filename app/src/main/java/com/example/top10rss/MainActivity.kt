@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
                 val parser = Parser()
                 parser.parse(result)
 
-                val arrayAdapter = ArrayAdapter<FeedEntry>(propContext, R.layout.list_item, parser.applications)
+                val arrayAdapter = ArrayAdapter<FeedEntry>(propContext, R.layout.list_item, parser.records)
                 propListView.adapter = arrayAdapter
             }
 

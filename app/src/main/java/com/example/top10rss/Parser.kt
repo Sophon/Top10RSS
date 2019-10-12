@@ -8,7 +8,7 @@ import java.lang.Exception
 class Parser {
     private val TAG = "Parser"
 
-    val applications = ArrayList<FeedEntry>()
+    val records = ArrayList<FeedEntry>()
 
     fun parse(xmlData: String): Boolean {
         Log.d(TAG, "parse called with $xmlData")
@@ -45,7 +45,7 @@ class Parser {
                         if(inEntry) {
                             when(tagName) {
                                 "entry" -> {
-                                    applications.add(currentRecord)
+                                    records.add(currentRecord)
                                     inEntry = false
                                     currentRecord = FeedEntry()
                                 }
@@ -62,7 +62,7 @@ class Parser {
                 eventType = xpp.next()
             }
 
-            for(app in applications) {
+            for(app in records) {
                 Log.d(TAG, "*****")
                 Log.d(TAG, app.toString())
             }
