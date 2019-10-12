@@ -19,17 +19,23 @@ class FeedAdapter(
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         Log.d(TAG, "getView(): called")
 
-        val view = inflater.inflate(resource, parent, false)
+        val view: View
+        val viewHolder: ViewHolder
 
-        val tvName = view.findViewById<TextView>(R.id.tvName)
-        val tvArtist = view.findViewById<TextView>(R.id.tvArtist)
-        val tvSummary = view.findViewById<TextView>(R.id.tvSummary)
+        if(convertView == null) {
+            view = inflater.inflate(resource, parent, false)
+            viewHolder = ViewHolder(view)
+            view.tag = viewHolder
+        } else {
+            view = convertView
+            viewHolder = view.tag as ViewHolder
+        }
 
         val currentRecord = records[position]
 
-        tvName.text = currentRecord.name
-        tvArtist.text = currentRecord.artist
-        tvSummary.text = currentRecord.summary
+        viewHolder.tvName.text = currentRecord.name
+        viewHolder.tvArtist.text = currentRecord.artist
+        viewHolder.tvSummary.text = currentRecord.summary
 
         return view
     }
