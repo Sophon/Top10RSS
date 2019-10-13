@@ -17,11 +17,14 @@ class MainActivity : AppCompatActivity() {
 
     private var downloadData: DownloadData? = null
 
+    private var feedURL: String = "http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/topfreeapplications/limit=%d/xml"
+    private var feedLimit = 10
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        downloadFeed("http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/topfreeapplications/limit=10/xml")
+        downloadFeed(feedURL.format(feedLimit))
     }
 
     private fun downloadFeed(feedURL: String) {
@@ -37,16 +40,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        val feedURL: String
-
         when(item?.itemId) {
-            R.id.mnuFree -> feedURL = "http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/topfreeapplications/limit=10/xml"
-            R.id.mnuPaid -> feedURL = "http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/toppaidapplications/limit=10/xml"
-            R.id.mnuSongs -> feedURL = "http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/topsongs/limit=10/xml"
+            R.id.mnuFree -> feedURL = "http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/topfreeapplications/limit=%d/xml"
+            R.id.mnuPaid -> feedURL = "http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/toppaidapplications/limit=%d/xml"
+            R.id.mnuSongs -> feedURL = "http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/topsongs/limit=%d/xml"
+            R.id.mnu10, R.id.mnu25 -> {
+                if(!item.isChecked) {
+                    item.isChecked = true
+                    feedLimit = 35 - feedLimit
+                }
+            }
             else -> return super.onOptionsItemSelected(item)
         }
 
-        downloadFeed(feedURL)
+        downloadFeed(feedURL.format(feedLimit))
         return true
     }
 
