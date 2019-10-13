@@ -6,12 +6,10 @@ import org.xmlpull.v1.XmlPullParserFactory
 import java.lang.Exception
 
 class Parser {
-    private val TAG = "Parser"
 
     val records = ArrayList<FeedEntry>()
 
     fun parse(xmlData: String): Boolean {
-        Log.d(TAG, "parse called with $xmlData")
         var status = true
         var inEntry = false
         var textValue = ""
@@ -29,7 +27,6 @@ class Parser {
                 val tagName = xpp.name?.toLowerCase()
                 when(eventType) {
                     XmlPullParser.START_TAG -> {
-                        Log.d(TAG, "parse: starting tag for $tagName")
                         if(tagName == "entry") {
                             inEntry = true
                         } else if(tagName == "image" && inEntry) {
@@ -41,7 +38,6 @@ class Parser {
                     XmlPullParser.TEXT -> textValue = xpp.text
 
                     XmlPullParser.END_TAG -> {
-                        Log.d(TAG, "parse: ending tag for $tagName")
                         if(inEntry) {
                             when(tagName) {
                                 "entry" -> {
@@ -60,11 +56,6 @@ class Parser {
                 }
 
                 eventType = xpp.next()
-            }
-
-            for(app in records) {
-                Log.d(TAG, "*****")
-                Log.d(TAG, app.toString())
             }
         } catch(e: Exception) {
             e.printStackTrace()

@@ -12,13 +12,9 @@ class FeedAdapter(
     context: Context, private val resource: Int, private val records: List<FeedEntry>
 ): ArrayAdapter<FeedEntry>(context, resource) {
 
-    private val TAG = "FeedAdapter"
-
     private val inflater = LayoutInflater.from(context)
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        Log.d(TAG, "getView(): called")
-
         val view: View
         val viewHolder: ViewHolder
 
@@ -41,7 +37,6 @@ class FeedAdapter(
     }
 
     override fun getCount(): Int {
-        Log.d(TAG, "getCount(): called")
         return records.size
     }
 }
