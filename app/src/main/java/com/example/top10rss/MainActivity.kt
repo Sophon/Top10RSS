@@ -20,6 +20,10 @@ class MainActivity : AppCompatActivity() {
     private var feedURL: String = "http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/topfreeapplications/limit=%d/xml"
     private var feedLimit = 10
 
+    private var feedCachedURL = "INVALIDATED"
+    private val STATE_URL = "feedURL"
+    private val STATE_LIMIT = "feedLimit"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -28,10 +32,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun downloadFeed(feedURL: String) {
-        Log.d(TAG, "downloadFeed: starting AsyncTask")
-        downloadData = DownloadData(this, xmlListView)
-        downloadData?.execute(feedURL)
-        Log.d(TAG, "downloadFeed: done")
+        if(feedURL != feedCachedURL) {
+            Log.d(TAG, "downloadFeed: starting AsyncTask")
+            downloadData = DownloadData(this, xmlListView)
+            downloadData?.execute(feedURL)
+            feedCachedURL = feedURL
+            Log.d(TAG, "downloadFeed: done")
+        } else {
+            Log.d(TAG, "downloadURL: URL not changed")
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -57,6 +66,7 @@ class MainActivity : AppCompatActivity() {
                     feedLimit = 35 - feedLimit
                 }
             }
+            R.id.mnuRefresh -> feedCachedURL = "INVALIDATED"
             else -> return super.onOptionsItemSelected(item)
         }
 
